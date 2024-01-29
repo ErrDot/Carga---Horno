@@ -8,7 +8,7 @@ from tkinter import messagebox
 import threading 
 
 
-### PESTAÑA SECUNDARIA
+### PESTAÑA PARA PARAMETROS
 class VentanaSecundaria(tk.Toplevel):
     en_uso = False
 
@@ -16,6 +16,7 @@ class VentanaSecundaria(tk.Toplevel):
         super().__init__(*args, **kwargs)
         self.config(width=200, height=300)
         self.title("Pestaña Secundaria")
+        self.configure(background=style.BACKGROUND)
         self.resizable(False, False)
         self.sec_widgets()
 
@@ -34,48 +35,45 @@ class VentanaSecundaria(tk.Toplevel):
             command=self.destroy
         )
         self.boton_cerrar.place(x=75, y=75)'''
+        
+
+
         self.nom_serv = tk.Label(
             self,
             text="Servidor: "
         ).grid(row=1, column=1)
-        self.servre = tk.Entry(self).grid(row=1, column=2)
+        self.servre = tk.Entry(self).grid(row=1, column=2, padx=10, pady=10)
 
         self.nom_bdd = tk.Label(
             self,
             text="Bdd: "
         ).grid(row=2, column=1)
-        self.bdd = tk.Entry(self).grid(row=2, column=2)
+        self.Frame_principal = tk.Entry(self).grid(row=2, column=2, padx=10, pady=10)
 
         self.user = tk.Label(
             self,
             text="Usuario: "
         ).grid(row=3, column=1)
-        self.servre = tk.Entry(self).grid(row=3, column=2)
+        self.servre = tk.Entry(self).grid(row=3, column=2, padx=10, pady=10)
 
         self.password = tk.Label(
             self,
             text="Contraseña: "
         ).grid(row=4, column=1)
-        self.servre = tk.Entry(self).grid(row=4, column=2)
+        self.servre = tk.Entry(self,
+                               show="*").grid(row=4, column=2, padx=10, pady=10)
 
         self.path = tk.Label(
             self,
             text="PATH: "
         ).grid(row=5, column=1)
-        self.servre = tk.Entry(self).grid(row=5, column=2)
+        self.servre = tk.Entry(self).grid(row=5, column=2, padx=10, pady=10)
 
         self.tiempo_lectura = tk.Label(
             self,
             text="Minutos: "
         ).grid(row=6, column=1)
-        self.servre = tk.Entry(self).grid(row=6, column=2)
-
-
-
-
-
-
-
+        self.servre = tk.Entry(self).grid(row=6, column=2, padx=10, pady=10)
 
 
 

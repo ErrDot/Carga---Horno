@@ -3,11 +3,13 @@ from tkinter import *
 from tkinter import scrolledtext
 import sys
 from constantes.funciones import conectar_bdd, cerrar_conexion, ingresar_datos, fecha_actual
-from constantes import style, config
+from constantes import style
 from tkinter import messagebox
 import threading 
 import json
 
+with open("constantes/config.json", "r") as archivo:
+        parametros = json.load(archivo) 
 
 ### PESTAÑA PARA PARAMETROS
 class VentanaSecundaria(tk.Toplevel):
@@ -119,7 +121,7 @@ class App(tk.Tk):
         self.configure(background=style.BACKGROUND)
         self.init_widgets() 
 
-        self.ruta_archivo = config.PATH
+        self.ruta_archivo = parametros["path"]
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         
 

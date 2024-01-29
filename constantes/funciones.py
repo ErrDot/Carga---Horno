@@ -2,7 +2,7 @@ import pyodbc # CONECTOR PARA Sql Server
 #import mysql.connector # CONECTOR DE MySql
 import pandas as pd
 from datetime import datetime 
-from constantes import config
+import json
 import time
 
 
@@ -21,13 +21,15 @@ def fecha_actual():
 def eliminar_lineas(contador):
     ### OBTENER Y FORMATEAR HORA ACUTAL
     fecha_hora = fecha_actual()
+    with open("constantes/config.json", "r") as archivo:
+        parametros = json.load(archivo)
     try:
-        with open(config.PATH, 'r') as archivo:
+        with open(parametros["path"], 'r') as archivo:
             lineas = archivo.readlines()
 
         lineas = [lineas[0]] + lineas[contador :-1]
 
-        with open(config.PATH, 'w') as archivo:
+        with open(parametros["path"], 'w') as archivo:
             archivo.writelines(lineas)
 
         print(f"{fecha_hora}: Se han eliminado {contador} registros")
@@ -38,11 +40,13 @@ def eliminar_lineas(contador):
 
 # FUNCIÓN PARA CONECTAR CON BDD
 def conectar_bdd():
+    with open("constantes/config.json", "r") as archivo:
+        parametros = json.load(archivo) 
     # DATOS DE CONEXIÓN
-    server = config.SERVER
-    db = config.DB
-    user = config.USER
-    password = config.PASSWORD
+    server = parametros["server"]
+    db = parametros["bdd"]
+    user = parametros["user"]
+    password = parametros["password"]
     # CONECTAR A BASE DE DATOS
     global cnn
     cnn = pyodbc.connect(
@@ -61,8 +65,11 @@ def conectar_bdd():
 # FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
 def ingresar_datos(timer_runs, ruta_archivo):
     fecha_hora = fecha_actual()
+    with open("constantes/config.json", "r") as archivo:
+        parametros = json.load(archivo) 
     print(f"{fecha_hora}: Ingresando datos..." )
     while timer_runs.is_set():
+        tiempo = parametros["tiempo"]
         fecha_hora = fecha_actual()
         # INGRESAR DATOS 
         df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True).fillna('0')
@@ -93,7 +100,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
             pass
         else:
             eliminar_lineas(contador)
-        time.sleep(20)  # 20 segundos
+        time.sleep(int(tiempo))  # 20 segundos
     
 
 

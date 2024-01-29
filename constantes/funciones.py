@@ -6,24 +6,33 @@ from constantes import config
 import time
 
 
+
+
+
 ### OBTENER Y FORMATEAR HORA ACUTAL
-hora_actual = datetime.now()
-hora_actual = datetime.strftime(hora_actual, '%d/%m/%Y %H:%M:%S')
+def fecha_actual():    
+    hora_actual = datetime.now()
+    hora_actual = datetime.strftime(hora_actual, '%d/%m/%Y %H:%M:%S')
+    return hora_actual
+
+
 
 # FUNCIÓN PARA VACIAR ARCHIVO
 def eliminar_lineas(contador):
-        try:
-            with open(config.PATH, 'r') as archivo:
-                lineas = archivo.readlines()
+    ### OBTENER Y FORMATEAR HORA ACUTAL
+    fecha_hora = fecha_actual()
+    try:
+        with open(config.PATH, 'r') as archivo:
+            lineas = archivo.readlines()
 
-            lineas = [lineas[0]] + lineas[contador :-1]
+        lineas = [lineas[0]] + lineas[contador :-1]
 
-            with open(config.PATH, 'w') as archivo:
-                archivo.writelines(lineas)
+        with open(config.PATH, 'w') as archivo:
+            archivo.writelines(lineas)
 
-            print(f"{hora_actual}: Se han eliminado {contador} registros")
-        except Exception as ex:
-            print(f"{hora_actual}: Error al eliminar líneas del archivo: {ex}")
+        print(f"{fecha_hora}: Se han eliminado {contador} registros")
+    except Exception as ex:
+        print(f"{fecha_hora}: Error al eliminar líneas del archivo: {ex}")
 
 
 
@@ -51,8 +60,10 @@ def conectar_bdd():
 
 # FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
 def ingresar_datos(timer_runs, ruta_archivo):
-    print("Ingresando datos..." )
+    fecha_hora = fecha_actual()
+    print(f"{fecha_hora}: Ingresando datos..." )
     while timer_runs.is_set():
+        fecha_hora = fecha_actual()
         # INGRESAR DATOS 
         df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True).fillna('0')
 
@@ -76,7 +87,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
         cnn.commit()
         cursor_insert.close()
 
-        print(f"{hora_actual}: Se han ingresado: {contador} registros")
+        print(f"{fecha_hora}: Se han ingresado: {contador} registros")
 
         if contador == 0:
             pass
@@ -88,14 +99,14 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
 ### FUNCIÓN PARA PARAR CERRAR CONEXION BDD
 def cerrar_conexion():
+    fecha_hora = fecha_actual()
     try:
         cnn.close()
-        print(f"{hora_actual}: La conexión se ha cerrado")
+        print(f"{fecha_hora}: La conexión se ha cerrado")
     except:
-        print(f"{hora_actual}: La conexión ya estaba cerrada o no estaba establecida")
+        print(f"{fecha_hora}: La conexión ya estaba cerrada o no estaba establecida")
         return
         
-
 
 
 ### RECUPERAR ÚLTIMO REGISTRO BDD

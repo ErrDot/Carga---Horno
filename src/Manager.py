@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import scrolledtext
+from PIL import ImageTk, Image
 import sys
-from constantes.funciones import conectar_bdd, cerrar_conexion, ingresar_datos
+from constantes.funciones import conectar_bdd, cerrar_conexion, ingresar_datos, fecha_actual
 from constantes import style, config
 from tkinter import messagebox
 import threading 
@@ -25,8 +26,7 @@ class App(tk.Tk):
 
         self.ruta_archivo = config.PATH
         self.protocol("WM_DELETE_WINDOW", self.on_close)
-        self.hora_actual = datetime.now()
-        self.hora_actual = datetime.strftime(self.hora_actual, '%d/%m/%Y %H:%M:%S')
+        
 
 
     ### WIDGETS - BTN, LABELS, ETC
@@ -44,14 +44,13 @@ class App(tk.Tk):
         ### TEXTO RUTA DE ARCHIVO
         self.title_label = tk.Label(
         Frame1,
-        text=config.PATH,
         justify=tk.CENTER,
         **style.STYLE
         )
         self.title_label.pack(
             side=tk.TOP,
             fill=tk.BOTH,
-            expand=True,
+            expand=False,
             padx=5,
             pady=5
         )
@@ -121,14 +120,15 @@ class App(tk.Tk):
 
     ### FUNCION PARA INICIAR PROCESO, CONEXION E INGRESO DE DATOS
     def iniciar(self):
+        fecha_hora = fecha_actual()
         if self.ruta_archivo:
 
             try:
                 conectar_bdd()
                 self.btn_iniciar.config(state=tk.DISABLED)
-                self.write(f"{self.hora_actual}: Conexión exitosa")
+                self.write(f"{fecha_hora}: Conexión exitosa")
             except Exception as ex:
-                self.write(f"{self.hora_actual}: Ha producido el siguiente error: {ex}")
+                self.write(f"{fecha_hora}: Ha producido el siguiente error: {ex}")
                 messagebox.showerror(message="No se ha podido establecer conexión con el servidor", title='ERROR')
                 return
             
@@ -140,7 +140,7 @@ class App(tk.Tk):
                 t.start()
             except Exception as ex:
                 messagebox.showerror(message="Error al ingresar datos.", title='ERROR')
-                self.write(f"{self.hora_actual}: Ha ocurrido el siguiente error: {ex}")
+                self.write(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
                 return         
             
         elif self.ruta_archivo == 1:
@@ -158,12 +158,13 @@ class App(tk.Tk):
 
     ### FUNCION PARA DETENER PROCESO
     def stop(self):
+        fecha_hora = fecha_actual()
         try:
             timer_runs.clear()
             cerrar_conexion()
             self.btn_iniciar.config(state=tk.NORMAL)
         except Exception as ex:
-            self.write(f"{self.hora_actual}: El proceso aun no ha sido ejecutado...")
+            self.write(f"{fecha_hora}: El proceso aun no ha sido ejecutado...")
             return
 
 

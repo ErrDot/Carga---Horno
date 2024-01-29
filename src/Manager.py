@@ -1,17 +1,45 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import scrolledtext
-from PIL import ImageTk, Image
 import sys
 from constantes.funciones import conectar_bdd, cerrar_conexion, ingresar_datos, fecha_actual
 from constantes import style, config
 from tkinter import messagebox
 import threading 
-from datetime import datetime
+
+
+### PESTAÑA SECUNDARIA
+class VentanaSecundaria(tk.Toplevel):
+
+
+    en_uso = False
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.config(width=200, height=300)
+        self.title("Pestaña Secundaria")
+        self.boton_cerrar = tk.Button(
+            self,
+            text="Cerrar ventana",
+            command=self.destroy
+        )
+        self.boton_cerrar.place(x=75, y=75)
+        self.focus()
+        self.__class__.en_uso = True
+
+    def destroy(self):
+        self.__class__.en_uso = False
+        return super().destroy()
+    
 
 
 
 
+
+
+        
+
+### PESTAÑA PRINCIPAL
 class App(tk.Tk):
 
 
@@ -41,18 +69,22 @@ class App(tk.Tk):
             pady=5
         )
 
-        ### TEXTO RUTA DE ARCHIVO
-        self.title_label = tk.Label(
-        Frame1,
-        justify=tk.CENTER,
-        **style.STYLE
-        )
-        self.title_label.pack(
-            side=tk.TOP,
-            fill=tk.BOTH,
-            expand=False,
-            padx=5,
-            pady=5
+        self.btn_abrir = tk.Button(Frame1)
+        self.btn_abrir.config(
+            text="Parametros",
+            state=tk.NORMAL,
+            width=5,
+            height=5,
+            command=self.abrir_ventana,
+            **style.BTN_PARA_STYLE,
+            activebackground="white",
+            activeforeground=style.TEXT
+            )
+        self.btn_abrir.pack(
+            side=tk.RIGHT,
+            fill=tk.X,
+            padx=50,
+            pady=11
         )
 
         ### CONSOLA EN PANTALLA
@@ -115,6 +147,12 @@ class App(tk.Tk):
             padx=50,
             pady=11
         )
+
+
+
+    def abrir_ventana(self):
+        if not VentanaSecundaria.en_uso:
+            self.ventana_secundaria = VentanaSecundaria()
 
 
 

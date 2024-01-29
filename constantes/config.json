@@ -1,8 +1,8 @@
 {
-    "server":"",
-    "bdd":"",
-    "user":"",
-    "password":"",
-    "path":"",
-    "tiempo":""
+    "server": "10.1.80.95",
+    "bdd": "malteria",
+    "user": "sa",
+    "password": "malterias",
+    "path": "C:\\Users\\alvar\\Desktop\\archivo_pruebas\\ejemplo.dat",
+    "tiempo": "5"
 }

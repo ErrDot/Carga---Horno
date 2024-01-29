@@ -6,6 +6,7 @@ from constantes.funciones import conectar_bdd, cerrar_conexion, ingresar_datos, 
 from constantes import style, config
 from tkinter import messagebox
 import threading 
+import json
 
 
 ### PESTAÑA PARA PARAMETROS
@@ -29,52 +30,80 @@ class VentanaSecundaria(tk.Toplevel):
         return super().destroy()
     
     def sec_widgets(self):
-        '''self.boton_cerrar = tk.Button(
-            self,
-            text="Cerrar ventana",
-            command=self.destroy
-        )
-        self.boton_cerrar.place(x=75, y=75)'''
         
-
-
-        self.nom_serv = tk.Label(
+        self.label_server = tk.Label(
             self,
             text="Servidor: "
         ).grid(row=1, column=1)
-        self.servre = tk.Entry(self).grid(row=1, column=2, padx=10, pady=10)
+        self.entry_server = tk.Entry(self)
+        self.entry_server.grid(row=1, column=2, padx=10, pady=10)
 
-        self.nom_bdd = tk.Label(
+        self.label_bdd = tk.Label(
             self,
             text="Bdd: "
         ).grid(row=2, column=1)
-        self.Frame_principal = tk.Entry(self).grid(row=2, column=2, padx=10, pady=10)
+        self.entry_bdd = tk.Entry(self)
+        self.entry_bdd.grid(row=2, column=2, padx=10, pady=10)
 
-        self.user = tk.Label(
+        self.label_user = tk.Label(
             self,
             text="Usuario: "
         ).grid(row=3, column=1)
-        self.servre = tk.Entry(self).grid(row=3, column=2, padx=10, pady=10)
+        self.entry_user = tk.Entry(self)
+        self.entry_user.grid(row=3, column=2, padx=10, pady=10)
 
-        self.password = tk.Label(
+        self.label_password = tk.Label(
             self,
             text="Contraseña: "
         ).grid(row=4, column=1)
-        self.servre = tk.Entry(self,
-                               show="*").grid(row=4, column=2, padx=10, pady=10)
+        self.entry_password = tk.Entry(self,show="*")
+        self.entry_password.grid(row=4, column=2, padx=10, pady=10)
 
-        self.path = tk.Label(
+        self.label_path = tk.Label(
             self,
             text="PATH: "
         ).grid(row=5, column=1)
-        self.servre = tk.Entry(self).grid(row=5, column=2, padx=10, pady=10)
+        self.entry_path = tk.Entry(self)
+        self.entry_path.grid(row=5, column=2, padx=10, pady=10)
 
-        self.tiempo_lectura = tk.Label(
+        self.label_tiempo_lectura = tk.Label(
             self,
             text="Minutos: "
         ).grid(row=6, column=1)
-        self.servre = tk.Entry(self).grid(row=6, column=2, padx=10, pady=10)
+        self.entry_tiempo_lectura = tk.Entry(self)
+        self.entry_tiempo_lectura.grid(row=6, column=2, padx=10, pady=10)
 
+
+
+        self.btn_guardar = tk.Button(self, text="Guardar", command=self.guardar_datos).grid(
+            row=7, column=2, padx=10, pady=10
+
+        )
+
+    ### FUNCION PARA GUARDAR PARAMETROS
+    def guardar_datos(self):
+        
+        server = self.entry_server.get()
+        base_datos = self.entry_bdd.get()
+        user = self.entry_user.get()
+        password = self.entry_password.get()
+        direccion = self.entry_path.get()
+        tiermpo = self.entry_tiempo_lectura.get()
+
+
+        parametros = {"server": server,"bdd": base_datos,"user":user,"password":password,"path":direccion,"tiempo":tiermpo}
+        
+
+        with open("constantes/config.json", "w") as archivo:
+            json.dump(parametros, archivo, indent=4)
+        self.destroy()
+
+
+    
+
+
+
+        
 
 
 ### PESTAÑA PRINCIPAL

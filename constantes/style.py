@@ -1,7 +1,7 @@
 BACKGROUND = "#D4E6F1"
 
 FONT = ("Arial", 16)
-FONT2 = ("Arial", 4)
+FONT2 = ("Arial", 8)
 COMPONENT = "#808B96"
 TEXT = "#84C9FB"
 

@@ -10,20 +10,16 @@ import threading
 
 ### PESTAÑA SECUNDARIA
 class VentanaSecundaria(tk.Toplevel):
-
-
     en_uso = False
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.config(width=200, height=300)
         self.title("Pestaña Secundaria")
-        self.boton_cerrar = tk.Button(
-            self,
-            text="Cerrar ventana",
-            command=self.destroy
-        )
-        self.boton_cerrar.place(x=75, y=75)
+        self.resizable(False, False)
+        self.sec_widgets()
+
+
         self.focus()
         self.__class__.en_uso = True
 
@@ -31,13 +27,57 @@ class VentanaSecundaria(tk.Toplevel):
         self.__class__.en_uso = False
         return super().destroy()
     
+    def sec_widgets(self):
+        '''self.boton_cerrar = tk.Button(
+            self,
+            text="Cerrar ventana",
+            command=self.destroy
+        )
+        self.boton_cerrar.place(x=75, y=75)'''
+        self.nom_serv = tk.Label(
+            self,
+            text="Servidor: "
+        ).grid(row=1, column=1)
+        self.servre = tk.Entry(self).grid(row=1, column=2)
+
+        self.nom_bdd = tk.Label(
+            self,
+            text="Bdd: "
+        ).grid(row=2, column=1)
+        self.bdd = tk.Entry(self).grid(row=2, column=2)
+
+        self.user = tk.Label(
+            self,
+            text="Usuario: "
+        ).grid(row=3, column=1)
+        self.servre = tk.Entry(self).grid(row=3, column=2)
+
+        self.password = tk.Label(
+            self,
+            text="Contraseña: "
+        ).grid(row=4, column=1)
+        self.servre = tk.Entry(self).grid(row=4, column=2)
+
+        self.path = tk.Label(
+            self,
+            text="PATH: "
+        ).grid(row=5, column=1)
+        self.servre = tk.Entry(self).grid(row=5, column=2)
+
+        self.tiempo_lectura = tk.Label(
+            self,
+            text="Minutos: "
+        ).grid(row=6, column=1)
+        self.servre = tk.Entry(self).grid(row=6, column=2)
 
 
 
 
 
 
-        
+
+
+
 
 ### PESTAÑA PRINCIPAL
 class App(tk.Tk):
@@ -65,6 +105,7 @@ class App(tk.Tk):
         Frame1.pack(
             side=tk.TOP,
             fill=tk.X,
+            expand=False,
             padx=5,
             pady=5
         )
@@ -73,8 +114,8 @@ class App(tk.Tk):
         self.btn_abrir.config(
             text="Parametros",
             state=tk.NORMAL,
-            width=5,
-            height=5,
+            width=9,
+            height=2,
             command=self.abrir_ventana,
             **style.BTN_PARA_STYLE,
             activebackground="white",
@@ -83,7 +124,7 @@ class App(tk.Tk):
         self.btn_abrir.pack(
             side=tk.RIGHT,
             fill=tk.X,
-            padx=50,
+            padx=10,
             pady=11
         )
 

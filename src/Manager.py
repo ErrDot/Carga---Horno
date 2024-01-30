@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import scrolledtext
 import sys
-from constantes.funciones import conectar_bdd, cerrar_conexion, ingresar_datos
+from Funciones.principales import conectar_bdd, ingresar_datos, fecha_actual, cerrar_conexion
 from Funciones.secundarias import fecha_actual, configuracion
 from constantes import style
 from tkinter import messagebox
@@ -19,8 +19,8 @@ class VentanaSecundaria(tk.Toplevel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.config(width=200, height=300)
-        self.title("Pestaña Secundaria")
+        self.config(width=230, height=300)
+        self.title("Parametros")
         self.configure(background=style.BACKGROUND)
         self.resizable(False, False)
         self.sec_widgets()

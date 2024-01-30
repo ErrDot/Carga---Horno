@@ -75,6 +75,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
         for i, row in df.iterrows():   
 
             # Formateo de fecha
+            ############## CREO QUE DEBERIA IR UN TRY PARA QUE UN SOLO DATO NO PARE EL PROCESO
             hora = row['dd-MM-yyyy H:mm:ss']
             hora = datetime.strftime(hora, '%d/%m/%Y %H:%M:%S')
 
@@ -126,4 +127,4 @@ def ultimo_registro():
 
 
 
-    
+ 

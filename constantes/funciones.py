@@ -4,6 +4,7 @@ import pandas as pd
 from datetime import datetime 
 from Funciones.secundarias import fecha_actual, configuracion
 import time
+from tkinter import messagebox
 
 
 
@@ -44,10 +45,10 @@ def conectar_bdd():
     )
     
     '''cnn = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='Hola1234',
-        database='prueba'
+        host=parametros["server"],
+        user=parametros["user"],
+        password=parametros["password"],
+        database=parametros["bdd"]
     )'''
     
 
@@ -56,13 +57,18 @@ def conectar_bdd():
 def ingresar_datos(timer_runs, ruta_archivo):
     fecha_hora = fecha_actual()
     parametros = configuracion() 
+
+    # INGRESAR DATOS 
+    try: 
+        df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True).fillna('0')
+    except:
+        messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
+        return
+        
     print(f"{fecha_hora}: Ingresando datos..." )
     while timer_runs.is_set():
         tiempo = parametros["tiempo"]
         fecha_hora = fecha_actual()
-        # INGRESAR DATOS 
-        df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True).fillna('0')
-
         # Contador de registros ingresados
         contador = 0
         cursor_insert = cnn.cursor()

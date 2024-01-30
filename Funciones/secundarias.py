@@ -2,13 +2,13 @@ from datetime import datetime
 import json
 
 
+
+
 ### FUNCION PARA LEER ARCHIVO JSON
 def configuracion():
     with open("constantes/config.json", "r") as archivo:
         parametros = json.load(archivo)
     return parametros
-
-
 
 
 

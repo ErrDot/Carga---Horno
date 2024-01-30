@@ -11,7 +11,7 @@ import json
 
 
 
-param = configuracion()
+
 
 ### PESTAÑA PARA PARAMETROS
 class VentanaSecundaria(tk.Toplevel):
@@ -24,6 +24,7 @@ class VentanaSecundaria(tk.Toplevel):
         self.configure(background=style.BACKGROUND)
         self.resizable(False, False)
         self.sec_widgets()
+        self.mostrar_config()
 
 
         self.focus()
@@ -80,9 +81,9 @@ class VentanaSecundaria(tk.Toplevel):
 
 
         self.btn_guardar = tk.Button(self, text="Guardar", command=self.guardar_datos).grid(
-            row=7, column=2, padx=10, pady=10
-
+            row=7, column=1, padx=10, pady=10
         )
+
 
     ### FUNCION PARA GUARDAR PARAMETROS
     def guardar_datos(self):
@@ -92,10 +93,10 @@ class VentanaSecundaria(tk.Toplevel):
         user = self.entry_user.get()
         password = self.entry_password.get()
         direccion = self.entry_path.get()
-        tiermpo = self.entry_tiempo_lectura.get()
+        tiempo = self.entry_tiempo_lectura.get()
 
 
-        parametros = {"server": server,"bdd": base_datos,"user":user,"password":password,"path":direccion,"tiempo":tiermpo}
+        parametros = {"server": server,"bdd": base_datos,"user":user,"password":password,"path":direccion,"tiempo":tiempo}
         
 
         with open("constantes/config.json", "w") as archivo:
@@ -103,8 +104,24 @@ class VentanaSecundaria(tk.Toplevel):
         self.destroy()
 
 
-    
+    ### FUNCIÓN PARA MOSTRAR CONFIGURACIÓN
+    def mostrar_config(self):
+        v_parametros = configuracion()
+        server = v_parametros["server"]
+        db = v_parametros["bdd"]
+        user = v_parametros["user"]
+        password = v_parametros["password"]
+        direccion = v_parametros["path"]
+        tiempo = v_parametros["tiempo"]
 
+        self.entry_server.insert(0, server)
+        self.entry_bdd.insert(0, db)
+        self.entry_user.insert(0, user)
+        self.entry_password.insert(0, password)
+        self.entry_path.insert(0, direccion)
+        self.entry_tiempo_lectura.insert(0, tiempo)
+
+               
 
 
         
@@ -123,7 +140,6 @@ class App(tk.Tk):
         self.configure(background=style.BACKGROUND)
         self.init_widgets() 
 
-        self.ruta_archivo = param["path"]
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         
 
@@ -230,9 +246,10 @@ class App(tk.Tk):
 
     ### FUNCION PARA INICIAR PROCESO, CONEXION E INGRESO DE DATOS
     def iniciar(self):
+        param = configuracion()
+        self.ruta_archivo = param["path"]
         fecha_hora = fecha_actual()
-        if self.ruta_archivo:
-
+        if self.ruta_archivo != "":
             try:
                 conectar_bdd()
                 self.btn_iniciar.config(state=tk.DISABLED)
@@ -253,9 +270,8 @@ class App(tk.Tk):
                 self.write(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
                 return         
             
-        elif self.ruta_archivo == 1:
-            self.write("La ruta del archivo no es correcta o no existe")
         else:
+            self.write("La ruta del archivo no es correcta o no existe")
             messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
 
 

@@ -2,18 +2,10 @@ import pyodbc # CONECTOR PARA Sql Server
 #import mysql.connector # CONECTOR DE MySql
 import pandas as pd
 from datetime import datetime 
-import json
+from Funciones.secundarias import fecha_actual, configuracion
 import time
 
 
-
-
-
-### OBTENER Y FORMATEAR HORA ACUTAL
-def fecha_actual():    
-    hora_actual = datetime.now()
-    hora_actual = datetime.strftime(hora_actual, '%d/%m/%Y %H:%M:%S')
-    return hora_actual
 
 
 
@@ -21,8 +13,7 @@ def fecha_actual():
 def eliminar_lineas(contador):
     ### OBTENER Y FORMATEAR HORA ACUTAL
     fecha_hora = fecha_actual()
-    with open("constantes/config.json", "r") as archivo:
-        parametros = json.load(archivo)
+    parametros = configuracion()
     try:
         with open(parametros["path"], 'r') as archivo:
             lineas = archivo.readlines()
@@ -40,8 +31,7 @@ def eliminar_lineas(contador):
 
 # FUNCIÓN PARA CONECTAR CON BDD
 def conectar_bdd():
-    with open("constantes/config.json", "r") as archivo:
-        parametros = json.load(archivo) 
+    parametros = configuracion()
     # DATOS DE CONEXIÓN
     server = parametros["server"]
     db = parametros["bdd"]
@@ -65,8 +55,7 @@ def conectar_bdd():
 # FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
 def ingresar_datos(timer_runs, ruta_archivo):
     fecha_hora = fecha_actual()
-    with open("constantes/config.json", "r") as archivo:
-        parametros = json.load(archivo) 
+    parametros = configuracion() 
     print(f"{fecha_hora}: Ingresando datos..." )
     while timer_runs.is_set():
         tiempo = parametros["tiempo"]

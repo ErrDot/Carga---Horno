@@ -59,16 +59,17 @@ def ingresar_datos(timer_runs, ruta_archivo):
     parametros = configuracion() 
 
     # INGRESAR DATOS 
-    try: 
-        df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True).fillna('0')
-    except:
-        messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
-        return
-        
+    check = True
     print(f"{fecha_hora}: Ingresando datos..." )
-    while timer_runs.is_set():
+    while timer_runs.is_set() and check == True:
         tiempo = parametros["tiempo"]
         fecha_hora = fecha_actual()
+        try: 
+            df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True).fillna('0')
+        except:
+            messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
+            check = False
+            return
         # Contador de registros ingresados
         contador = 0
         cursor_insert = cnn.cursor()

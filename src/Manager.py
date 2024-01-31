@@ -1,13 +1,11 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import scrolledtext
-import sys
 from Funciones.principales import conectar_bdd, ingresar_datos, fecha_actual, cerrar_conexion
-from Funciones.secundarias import fecha_actual, configuracion
+from Funciones.secundarias import fecha_actual, configuracion, guardar_data
 from constantes import style
 from tkinter import messagebox
-import threading 
-import json
+import threading
 
 
 
@@ -97,10 +95,9 @@ class VentanaSecundaria(tk.Toplevel):
 
 
         parametros = {"server": server,"bdd": base_datos,"user":user,"password":password,"path":direccion,"tiempo":tiempo}
-        
+        guardar_data(parametros)
 
-        with open("constantes/config.json", "w") as archivo:
-            json.dump(parametros, archivo, indent=4)
+        
         self.destroy()
 
 
@@ -157,8 +154,8 @@ class App(tk.Tk):
             pady=5
         )
 
-        self.btn_abrir = tk.Button(Frame1)
-        self.btn_abrir.config(
+        self.btn_parametros = tk.Button(Frame1)
+        self.btn_parametros.config(
             text="Parametros",
             state=tk.NORMAL,
             width=9,
@@ -168,23 +165,43 @@ class App(tk.Tk):
             activebackground="white",
             activeforeground=style.TEXT
             )
-        self.btn_abrir.pack(
+        self.btn_parametros.pack(
             side=tk.RIGHT,
             fill=tk.X,
             padx=10,
             pady=11
         )
 
-        ### CONSOLA EN PANTALLA
-        self.console_text = scrolledtext.ScrolledText(
-            self, wrap=tk.WORD, width=40, height=20)
-        self.console_text.pack(
-            expand=True, 
-            fill=tk.BOTH, 
-            padx=5, 
-            pady=5
+        self.btn_cerrar = tk.Button(Frame1)
+        self.btn_cerrar.config(
+            text="CERRAR",
+            state=tk.NORMAL,
+            width=9,
+            height=2,
+            command=self.on_close,
+            **style.BTN_PARA_STYLE,
+            activebackground="white",
+            activeforeground=style.TEXT
             )
-        sys.stdout = self
+        self.btn_cerrar.pack(
+            side=tk.RIGHT,
+            fill=tk.X,
+            padx=10,
+            pady=11
+        )
+
+        Frame_central = tk.Frame(self)
+        Frame_central.configure(background=style.FRAME_CENTRAL)
+        Frame_central.pack(
+            side=tk.TOP,
+            fill=tk.BOTH,
+            expand=True,
+            padx=5,
+            pady=5
+        )
+
+        ### CONSOLA EN PANTALLA
+        
 
         ### FRAME FOOTER
         Frame_footer = tk.Frame(self)
@@ -192,17 +209,18 @@ class App(tk.Tk):
         Frame_footer.pack(
             side=tk.BOTTOM,
             fill=tk.X,
+            expand=False,
             padx=5,
             pady=5
         )
 
         ### BTN PARA INICIAR EL PROCECESO
-        self.btn_iniciar = tk.Button(Frame_footer)
+        self.btn_iniciar = tk.Button(Frame1)
         self.btn_iniciar.config(
             text="INICIAR",
             state=tk.NORMAL,
-            width=15,
-            height=25,
+            width=9,
+            height=2,
             command=self.iniciar,
             **style.BTN_STYLE,
             #relief=tk.FLAT,
@@ -218,19 +236,19 @@ class App(tk.Tk):
 
 
         ### BTN PARA PARA EL PROCESO
-        self.btn_detener = tk.Button(Frame_footer)
+        self.btn_detener = tk.Button(Frame1)
         self.btn_detener.config(
             text="DETENER",
             state=tk.NORMAL,
-            width=15,
-            height=25,
+            width=9,
+            height=2,
             command=self.stop,
             **style.BTN_STYLE,
             activebackground="white",
             activeforeground=style.TEXT
             )
         self.btn_detener.pack(
-            side=tk.RIGHT,
+            side=tk.LEFT,
             fill=tk.X,
             padx=50,
             pady=11
@@ -253,9 +271,9 @@ class App(tk.Tk):
             try:
                 conectar_bdd()
                 self.btn_iniciar.config(state=tk.DISABLED)
-                self.write(f"{fecha_hora}: Conexión exitosa")
+                print(f"{fecha_hora}: Conexión exitosa")
             except Exception as ex:
-                self.write(f"{fecha_hora}: Ha producido el siguiente error: {ex}")
+                print(f"{fecha_hora}: Ha producido el siguiente error: {ex}")
                 messagebox.showerror(message="No se ha podido establecer conexión con el servidor", title='ERROR')
                 return
             
@@ -267,19 +285,17 @@ class App(tk.Tk):
                 t.start()
             except Exception as ex:
                 messagebox.showerror(message="Error al ingresar datos.", title='ERROR')
-                self.write(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
+                print(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
                 return         
             
         else:
-            self.write("La ruta del archivo no es correcta o no existe")
+            print("La ruta del archivo no es correcta o no existe")
             messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
 
 
 
     ### FUNCION PARA ENVIAR MENSAJES POR CONSOLA
-    def write(self, text):
-        self.console_text.insert(tk.END, text + '\n')
-        self.console_text.yview(tk.END)
+    
 
 
     ### FUNCION PARA DETENER PROCESO
@@ -290,7 +306,7 @@ class App(tk.Tk):
             cerrar_conexion()
             self.btn_iniciar.config(state=tk.NORMAL)
         except Exception as ex:
-            self.write(f"{fecha_hora}: El proceso aun no ha sido ejecutado...")
+            print(f"{fecha_hora}: El proceso aun no ha sido ejecutado...")
             return
 
 
@@ -303,7 +319,6 @@ class App(tk.Tk):
         except:
             print("")
         # RESTABLECE sys.stdout AL VALOR ORIGINAL AL SALIR DE LA APP
-        sys.stdout = sys.__stdout__
         # CERRA APP
         self.destroy()    
         

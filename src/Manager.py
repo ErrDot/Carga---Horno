@@ -161,7 +161,7 @@ class App(tk.Tk):
             width=9,
             height=2,
             command=self.abrir_ventana,
-            **style.BTN_PARA_STYLE,
+            **style.BTN_STYLE,
             activebackground="white",
             activeforeground=style.TEXT
             )
@@ -179,7 +179,7 @@ class App(tk.Tk):
             width=9,
             height=2,
             command=self.on_close,
-            **style.BTN_PARA_STYLE,
+            **style.BTN_STYLE,
             activebackground="white",
             activeforeground=style.TEXT
             )

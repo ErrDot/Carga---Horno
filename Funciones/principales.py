@@ -44,14 +44,7 @@ def conectar_bdd():
         'DRIVER={SQL Server};SERVER='+server+';DATABASE='+db+';UID='+user+';PWD='+password
     )
     
-    '''cnn = mysql.connector.connect(
-        host=parametros["server"],
-        user=parametros["user"],
-        password=parametros["password"],
-        database=parametros["bdd"]
-    )'''
     
-
 
 # FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
 def ingresar_datos(timer_runs, ruta_archivo):

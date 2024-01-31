@@ -196,7 +196,11 @@ class App(tk.Tk):
         ### CONSOLA EN PANTALLA
         self.console_output = scrolledtext.ScrolledText(
             self, wrap=tk.WORD, width=40, height=10)
-        self.console_output.pack(expand=True, fill=tk.BOTH)
+        self.console_output.pack(
+            expand=True, 
+            fill=tk.BOTH, 
+            padx=5,
+            pady=5)
         sys.stdout = ConsoleRedirector(self.console_output)
 
         ### FRAME FOOTER
@@ -292,7 +296,7 @@ class App(tk.Tk):
                 return         
             
         else:
-            print("La ruta del archivo no es correcta o no existe")
+            print(f"{fecha_hora}:La ruta del archivo no es correcta o no existe")
             messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
     
 

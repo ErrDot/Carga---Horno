@@ -155,6 +155,7 @@ class App(tk.Tk):
             pady=5
         )
 
+        # BTN PARA INGRESAR PARAMETROS
         self.btn_parametros = tk.Button(Frame1)
         self.btn_parametros.config(
             text="Parametros",
@@ -173,6 +174,7 @@ class App(tk.Tk):
             pady=11
         )
 
+        #BTN PARA CERRAR APP
         self.btn_cerrar = tk.Button(Frame1)
         self.btn_cerrar.config(
             text="CERRAR",
@@ -191,27 +193,11 @@ class App(tk.Tk):
             pady=11
         )
 
-        '''Frame_central = tk.Frame(self)
-        Frame_central.configure(background=style.FRAME_CENTRAL)
-        Frame_central.pack(
-            side=tk.TOP,
-            fill=tk.BOTH,
-            expand=True,
-            padx=5,
-            pady=5
-        )'''
-
         ### CONSOLA EN PANTALLA
-
         self.console_output = scrolledtext.ScrolledText(
             self, wrap=tk.WORD, width=40, height=10)
         self.console_output.pack(expand=True, fill=tk.BOTH)
         sys.stdout = ConsoleRedirector(self.console_output)
-
-
-
-
-        
 
         ### FRAME FOOTER
         Frame_footer = tk.Frame(self)
@@ -244,7 +230,6 @@ class App(tk.Tk):
             pady=11
         )
 
-
         ### BTN PARA PARA EL PROCESO
         self.btn_detener = tk.Button(Frame1)
         self.btn_detener.config(
@@ -265,15 +250,20 @@ class App(tk.Tk):
         )
 
 
-
+    ### FUNCIÓN PARA ABRIR SEGUNDA VENTANA
     def abrir_ventana(self):
         if not VentanaSecundaria.en_uso:
             self.ventana_secundaria = VentanaSecundaria()
 
+
+
+    ### FUNCIÓN PARA ESCRIBIR EN PANTALLA
     def write(self, text):
         self.console_output.insert(tk.END, text)
         self.console_output.see(tk.END)
         self.update_idletasks()
+
+
 
     ### FUNCION PARA INICIAR PROCESO, CONEXION E INGRESO DE DATOS
     def iniciar(self):
@@ -304,10 +294,6 @@ class App(tk.Tk):
         else:
             print("La ruta del archivo no es correcta o no existe")
             messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
-
-
-
-    ### FUNCION PARA ENVIAR MENSAJES POR CONSOLA
     
 
 
@@ -337,7 +323,7 @@ class App(tk.Tk):
         self.destroy()    
 
 
-
+### CLASE PARA REDIRIGIR MENSAJES DE CONSOLA
 class ConsoleRedirector:
     def __init__(self, text_widget):
         self.text_widget = text_widget
@@ -348,8 +334,6 @@ class ConsoleRedirector:
     
     def flush(self):
         pass
-
-
 
 
 

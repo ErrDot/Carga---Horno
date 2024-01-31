@@ -17,8 +17,8 @@ class VentanaSecundaria(tk.Toplevel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.config(width=230, height=300)
         self.title("Parametros")
+        self.geometry("235x300")
         self.configure(background=style.BACKGROUND)
         self.resizable(False, False)
         self.sec_widgets()

@@ -317,8 +317,6 @@ class App(tk.Tk):
             cerrar_conexion()
         except:
             print("")
-        # RESTABLECE sys.stdout AL VALOR ORIGINAL AL SALIR DE LA APP
-        #sys.stdout = sys.__stdout__
         # CERRA APP
         self.destroy()    
 

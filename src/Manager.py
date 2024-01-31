@@ -72,7 +72,7 @@ class VentanaSecundaria(tk.Toplevel):
 
         self.label_tiempo_lectura = tk.Label(
             self,
-            text="Minutos: "
+            text="Segundos: "
         ).grid(row=6, column=1)
         self.entry_tiempo_lectura = tk.Entry(self)
         self.entry_tiempo_lectura.grid(row=6, column=2, padx=10, pady=10)

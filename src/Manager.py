@@ -1,4 +1,5 @@
 import tkinter as tk
+import sys
 from tkinter import *
 from tkinter import scrolledtext
 from Funciones.principales import conectar_bdd, ingresar_datos, fecha_actual, cerrar_conexion
@@ -190,7 +191,7 @@ class App(tk.Tk):
             pady=11
         )
 
-        Frame_central = tk.Frame(self)
+        '''Frame_central = tk.Frame(self)
         Frame_central.configure(background=style.FRAME_CENTRAL)
         Frame_central.pack(
             side=tk.TOP,
@@ -198,9 +199,18 @@ class App(tk.Tk):
             expand=True,
             padx=5,
             pady=5
-        )
+        )'''
 
         ### CONSOLA EN PANTALLA
+
+        self.console_output = scrolledtext.ScrolledText(
+            self, wrap=tk.WORD, width=40, height=10)
+        self.console_output.pack(expand=True, fill=tk.BOTH)
+        sys.stdout = ConsoleRedirector(self.console_output)
+
+
+
+
         
 
         ### FRAME FOOTER
@@ -260,7 +270,10 @@ class App(tk.Tk):
         if not VentanaSecundaria.en_uso:
             self.ventana_secundaria = VentanaSecundaria()
 
-
+    def write(self, text):
+        self.console_output.insert(tk.END, text)
+        self.console_output.see(tk.END)
+        self.update_idletasks()
 
     ### FUNCION PARA INICIAR PROCESO, CONEXION E INGRESO DE DATOS
     def iniciar(self):
@@ -319,9 +332,22 @@ class App(tk.Tk):
         except:
             print("")
         # RESTABLECE sys.stdout AL VALOR ORIGINAL AL SALIR DE LA APP
+        #sys.stdout = sys.__stdout__
         # CERRA APP
         self.destroy()    
-        
+
+
+
+class ConsoleRedirector:
+    def __init__(self, text_widget):
+        self.text_widget = text_widget
+
+    def write(self, text):
+        self.text_widget.insert(tk.END, text + '\n')
+        self.text_widget.see(tk.END)
+    
+    def flush(self):
+        pass
 
 
 

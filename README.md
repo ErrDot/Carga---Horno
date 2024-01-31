@@ -1,9 +1,5 @@
 # Carga---Horno
-Este repositorio es de la APP de escritorio Carga de datos  - Horno: 
+Este repositorio es de la APP de escritorio Carga de datos - Horno: 
 
-
-por ejemplo si tengo mi script principal que es la que inicia todas las funciones y todos eso que se llama App.py y luego tengo las carpetas 
-src, Funciones y constantes, cómo quedaria esa linea de pyinstaller? 
-
-Crear .exe
-Probar el programa y posibles bugs
+Ahora queda probar el programa, sus bugs, que no rompa nada, que tome casi todos los datos, ordenar un poco el codigo,
+que no sea tan fea la interfaz agregarle algun iconnito, luego pruebas finales y estaría...

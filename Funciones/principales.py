@@ -59,7 +59,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
         try: 
             df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True).fillna('0')
         except:
-            messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
+            messagebox.showerror(message="Archivo erroneo o no vinculado, intente otra vez", title='ERROR')
             check = False
             return
         # Contador de registros ingresados
@@ -69,16 +69,18 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
             # Formateo de fecha
             ############## CREO QUE DEBERIA IR UN TRY PARA QUE UN SOLO DATO NO PARE EL PROCESO
+            
             hora = row['dd-MM-yyyy H:mm:ss']
             hora = datetime.strftime(hora, '%d/%m/%Y %H:%M:%S')
+            v_numero = int(row['NUMERO DE BATCH HORNO'])
+            v_binario = int(row['binario'])
 
             # SENTENCIA SQL
             sql = f'''INSERT INTO controlPlc (fechaRegistro, valorTexto, valorDecimal, valorEntero, valorBinario)
-                    VALUES ('{hora}', '{row['VARIEDAD HORNO']}', '{row['decimal']}', '{row['NUMERO DE BATCH HORNO']}', '{row['binario']}')'''
-
+                    VALUES ('{hora}', '{row['VARIEDAD HORNO']}', '{row['decimal']}', '{v_numero}', '{v_binario}')'''
             cursor_insert.execute(sql)
-
             contador += 1
+           
 
         cnn.commit()
         cursor_insert.close()
@@ -89,7 +91,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
             pass
         else:
             eliminar_lineas(contador)
-        time.sleep(int(tiempo))  # 20 segundos
+        time.sleep(int(tiempo))  # Segundos
     
 
 

@@ -1,5 +1,4 @@
-import pyodbc # CONECTOR PARA Sql Server
-#import mysql.connector # CONECTOR DE MySql
+import pyodbc # CONECTOR PARA Sql Servers
 import pandas as pd
 from datetime import datetime 
 from Funciones.secundarias import fecha_actual, configuracion
@@ -44,7 +43,7 @@ def conectar_bdd():
         'DRIVER={SQL Server};SERVER='+server+';DATABASE='+db+';UID='+user+';PWD='+password
     )
     
-    
+
 
 # FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
 def ingresar_datos(timer_runs, ruta_archivo):

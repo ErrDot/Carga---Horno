@@ -69,7 +69,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
             # Formateo de fecha
             ############## CREO QUE DEBERIA IR UN TRY PARA QUE UN SOLO DATO NO PARE EL PROCESO
-            
+            hora = row['dd-MM-yyyy H:mm:ss']
             hora = datetime.strftime(hora, '%d/%m/%Y %H:%M:%S')
             v_numero = int(row['NUMERO DE BATCH HORNO'])
             v_binario = int(row['binario'])

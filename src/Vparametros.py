@@ -8,10 +8,6 @@ from tkinter import messagebox
 
 
 
-
-
-
-
 ### PESTAÑA PARA PARAMETROS
 class VentanaSecundaria(tk.Toplevel):
     en_uso = False
@@ -86,6 +82,7 @@ class VentanaSecundaria(tk.Toplevel):
 
     ### FUNCION PARA GUARDAR PARAMETROS
     def guardar_datos(self):
+        fecha_hora = fecha_actual()
         try:
             server = self.entry_server.get()
             base_datos = self.entry_bdd.get()
@@ -99,7 +96,7 @@ class VentanaSecundaria(tk.Toplevel):
             guardar_data(parametros)
             messagebox.showinfo(message="Datos guardados", title="Guardado Exitoso")
         except Exception as ex:
-            print(f"Ha ocurrido el siguiente error: {ex}")
+            print(f"{fecha_hora}Ha ocurrido el siguiente error: {ex}")
             messagebox.showerror(message="Ha ocurrido un error al intentar guardo los datos", title='ERROR')
             return
         self.destroy()

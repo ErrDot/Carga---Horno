@@ -86,19 +86,22 @@ class VentanaSecundaria(tk.Toplevel):
 
     ### FUNCION PARA GUARDAR PARAMETROS
     def guardar_datos(self):
-        
-        server = self.entry_server.get()
-        base_datos = self.entry_bdd.get()
-        user = self.entry_user.get()
-        password = self.entry_password.get()
-        direccion = self.entry_path.get()
-        tiempo = self.entry_tiempo_lectura.get()
+        try:
+            server = self.entry_server.get()
+            base_datos = self.entry_bdd.get()
+            user = self.entry_user.get()
+            password = self.entry_password.get()
+            direccion = self.entry_path.get()
+            tiempo = self.entry_tiempo_lectura.get()
 
 
-        parametros = {"server": server,"bdd": base_datos,"user":user,"password":password,"path":direccion,"tiempo":tiempo}
-        guardar_data(parametros)
-
-        
+            parametros = {"server": server,"bdd": base_datos,"user":user,"password":password,"path":direccion,"tiempo":tiempo}
+            guardar_data(parametros)
+            messagebox.showinfo(message="Datos guardados", title="Guardado Exitoso")
+        except Exception as ex:
+            print(f"Ha ocurrido el siguiente error: {ex}")
+            messagebox.showerror(message="Ha ocurrido un error al intentar guardo los datos", title='ERROR')
+            return
         self.destroy()
 
 

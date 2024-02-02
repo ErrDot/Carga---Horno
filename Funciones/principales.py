@@ -4,7 +4,7 @@ from datetime import datetime
 from Funciones.secundarias import fecha_actual, configuracion
 import time
 from tkinter import messagebox
-
+import math
 
 
 
@@ -48,38 +48,104 @@ def conectar_bdd():
 # FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
 def ingresar_datos(timer_runs, ruta_archivo):
     fecha_hora = fecha_actual()
-    parametros = configuracion() 
+    parametros = configuracion()
+    
 
     # INGRESAR DATOS 
     check = True
     print(f"{fecha_hora}: Ingresando datos..." )
     while timer_runs.is_set() and check == True:
+        ultimo = ultimo_registro()
         tiempo = parametros["tiempo"]
         fecha_hora = fecha_actual()
         try: 
-            df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True).fillna('0')
-        except:
+            df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True, encoding='unicode_escape').fillna('0')
+        except Exception as ex:
+            print(ex)
             messagebox.showerror(message="Archivo erroneo o no vinculado, intente otra vez", title='ERROR')
             check = False
             return
+
+        # VALORES DECIMALES
+        df['T° Sobre Tela 1'] = df['T° Sobre Tela 1'].str.replace(',', '.').astype(float)
+        df['T° Sobre Tela 2'] = df['T° Sobre Tela 2'].str.replace(',', '.').astype(float)
+        df['T° Bajo Tela 2'] = df['T° Bajo Tela 2'].str.replace(',', '.').astype(float)
+        df['T° AMBIENTE'] = df['T° AMBIENTE'].str.replace(',', '.').astype(float)
+        df['%HR Sobre tela'] = df['GAS ETAPA 4'].str.replace(',', '.').astype(float)
+        # VALORES INT
+        df['Presion diferencial'] = df['Presion diferencial'].str.replace(',', '.').astype(float) / 1
+        df['GAS ETAPA 1'] = df['GAS ETAPA 1'].str.replace(',', '.').astype(float) / 1
+        df['GAS ETAPA 2'] = df['GAS ETAPA 2'].str.replace(',', '.').astype(float) / 1
+        df['GAS ETAPA 3'] = df['GAS ETAPA 3'].str.replace(',', '.').astype(float) / 1
+        df['GAS ETAPA 4'] = df['GAS ETAPA 4'].str.replace(',', '.').astype(float) / 1
+        df['GAS ETAPA 5'] = df['GAS ETAPA 5'].str.replace(',', '.').astype(float) / 1
+        df['GAS ETAPA 6'] = df['GAS ETAPA 6'].str.replace(',', '.').astype(float) / 1
+        df['TIEMPO BARRA ETAPA 1'] = df['TIEMPO BARRA ETAPA 1'].str.replace(',', '.').astype(float) / 1
+        df['TIEMPO BARRA ETAPA 2'] = df['TIEMPO BARRA ETAPA 2'].str.replace(',', '.').astype(float) / 1
+        df['TIEMPO BARRA ETAPA 3'] = df['TIEMPO BARRA ETAPA 3'].str.replace(',', '.').astype(float) / 1
+        df['TIEMPO BARRA ETAPA 4'] = df['TIEMPO BARRA ETAPA 4'].str.replace(',', '.').astype(float) / 1
+        df['TIEMPO BARRA ETAPA 5'] = df['TIEMPO BARRA ETAPA 5'].str.replace(',', '.').astype(float) / 1
+        df['TIEMPO BARRA ETAPA 6'] = df['TIEMPO BARRA ETAPA 6'].str.replace(',', '.').astype(float) / 1
+        df['SET POINT DE TEMPERATURA ETAPA 1'] = df['SET POINT DE TEMPERATURA ETAPA 1'].str.replace(',', '.').astype(float) / 1
+        df['SET POINT DE TEMPERATURA ETAPA 2'] = df['SET POINT DE TEMPERATURA ETAPA 2'].str.replace(',', '.').astype(float) / 1
+        df['SET POINT DE TEMPERATURA ETAPA 3'] = df['SET POINT DE TEMPERATURA ETAPA 3'].str.replace(',', '.').astype(float) / 1
+        df['SET POINT ETAPA 4'] = df['SET POINT ETAPA 4'].str.replace(',', '.').astype(float) / 1
+        df['SET POINT DE TEMPERATURA ETAPA 5'] = df['SET POINT DE TEMPERATURA ETAPA 5'].str.replace(',', '.').astype(float) / 1
+        df['SET POINT DE TEMPERATURA ETAPA 6'] = df['SET POINT DE TEMPERATURA ETAPA 6'].str.replace(',', '.').astype(float) / 1
+        #PASAR LOS VALORES A INT
+        df['Presion diferencial'] = df['Presion diferencial'].astype(int)
+        df['GAS ETAPA 1'] = df['GAS ETAPA 1'].astype(int)
+        df['GAS ETAPA 2'] = df['GAS ETAPA 2'].astype(int)
+        df['GAS ETAPA 3'] = df['GAS ETAPA 3'].astype(int)
+        df['GAS ETAPA 4'] = df['GAS ETAPA 4'].astype(int)
+        df['GAS ETAPA 5'] = df['GAS ETAPA 5'].astype(int)
+        df['GAS ETAPA 6'] = df['GAS ETAPA 6'].astype(int)
+        df['TIEMPO BARRA ETAPA 1'] = df['TIEMPO BARRA ETAPA 1'].astype(int)
+        df['TIEMPO BARRA ETAPA 2'] = df['TIEMPO BARRA ETAPA 2'].astype(int)
+        df['TIEMPO BARRA ETAPA 3'] = df['TIEMPO BARRA ETAPA 3'].astype(int)
+        df['TIEMPO BARRA ETAPA 4'] = df['TIEMPO BARRA ETAPA 4'].astype(int)
+        df['TIEMPO BARRA ETAPA 5'] = df['TIEMPO BARRA ETAPA 5'].astype(int)
+        df['TIEMPO BARRA ETAPA 6'] = df['TIEMPO BARRA ETAPA 6'].astype(int)
+        df['SET POINT DE TEMPERATURA ETAPA 1'] = df['SET POINT DE TEMPERATURA ETAPA 1'].astype(int)
+        df['SET POINT DE TEMPERATURA ETAPA 2'] = df['SET POINT DE TEMPERATURA ETAPA 2'].astype(int)
+        df['SET POINT DE TEMPERATURA ETAPA 3'] = df['SET POINT DE TEMPERATURA ETAPA 3'].astype(int)
+        df['SET POINT ETAPA 4'] = df['SET POINT ETAPA 4'].astype(int)
+        df['SET POINT DE TEMPERATURA ETAPA 5'] = df['SET POINT DE TEMPERATURA ETAPA 5'].astype(int)
+        df['SET POINT DE TEMPERATURA ETAPA 6'] = df['SET POINT DE TEMPERATURA ETAPA 6'].astype(int)
+
+        
+
         # Contador de registros ingresados
         contador = 0
         cursor_insert = cnn.cursor()
         for i, row in df.iterrows():   
-
             # Formateo de fecha
-            ############## CREO QUE DEBERIA IR UN TRY PARA QUE UN SOLO DATO NO PARE EL PROCESO
-            hora = row['dd-MM-yyyy H:mm:ss']
-            hora = datetime.strftime(hora, '%d/%m/%Y %H:%M:%S')
-            v_numero = int(row['NUMERO DE BATCH HORNO'])
-            v_binario = int(row['binario'])
-
-            # SENTENCIA SQL
-            sql = f'''INSERT INTO controlPlc (fechaRegistro, valorTexto, valorDecimal, valorEntero, valorBinario)
-                    VALUES ('{hora}', '{row['VARIEDAD HORNO']}', '{row['decimal']}', '{v_numero}', '{v_binario}')'''
-            cursor_insert.execute(sql)
-            contador += 1
-           
+            fecha = row['dd-MM-yyyy H:mm:ss']
+            fecha = datetime.strftime(fecha, '%d/%m/%Y %H:%M:%S')
+            ultimoRegistro = ultimo[0]
+            ultimoRegistro = datetime.strftime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
+            if fecha != ultimoRegistro and fecha > ultimoRegistro:
+                try:
+                    # SENTENCIA SQL
+                    sql = f'''INSERT INTO HornoMiagTTE (Fecha, Batch, Variedad, TSobreTela1, TSobreTela2,TBajoTela2,
+                                TAmbiente, HRSobreTela, PAperturaDamper, PresionDiferencial, GasTotal, GasEtapa1,
+                                GasEtapa2, GasEtapa3, GasEtapa4, GasEtapa5, GasEtapa6, TiempoTotal, TiempoBarraE1,
+                                TiempoBarraE2, TiempoBarraE3, TiempoBarraE4, TiempoBarraE5, TiempoBarraE6, SPTemp1,
+                                SPTemp2, SPTemp3, SPTemp4, SPTemp5, SPTemp6, BotonStart)
+                                VALUES ('{fecha}', '{row['Numero de Batch']}', '{row['Variedad']}', '{row['T° Sobre Tela 1']}', 
+                                    '{row['T° Sobre Tela 2']}','{row['T° Bajo Tela 2']}', '{row['T° AMBIENTE']}', '{row['%HR Sobre tela']}', 
+                                    '{row['Porcentaje de apertura de DAMPER']}', '{row['Presion diferencial']}', '{row['GAS TOTAL']}', 
+                                    '{row['GAS ETAPA 1']}', '{row['GAS ETAPA 2']}','{row['GAS ETAPA 3']}','{row['GAS ETAPA 4']}', 
+                                    '{row['GAS ETAPA 5']}', '{row['GAS ETAPA 6']}', '{row['TIEMPO TOTAL']}', '{row['TIEMPO BARRA ETAPA 1']}',
+                                    '{row['TIEMPO BARRA ETAPA 2']}', '{row['TIEMPO BARRA ETAPA 3']}', '{row['TIEMPO BARRA ETAPA 4']}', 
+                                    '{row['TIEMPO BARRA ETAPA 5']}','{row['TIEMPO BARRA ETAPA 6']}', '{row['SET POINT DE TEMPERATURA ETAPA 1']}', 
+                                    '{row['SET POINT DE TEMPERATURA ETAPA 2']}','{row['SET POINT DE TEMPERATURA ETAPA 3']}', '{row['SET POINT ETAPA 4']}', 
+                                    '{row['SET POINT DE TEMPERATURA ETAPA 5']}', '{row['SET POINT DE TEMPERATURA ETAPA 6']}', '{row['Boton Start']}')'''
+                    cursor_insert.execute(sql)
+                    contador += 1
+                except Exception as ex:
+                    print(ex)
+                    print(f"Error en fila \n {i}: {row}")
 
         cnn.commit()
         cursor_insert.close()
@@ -89,7 +155,8 @@ def ingresar_datos(timer_runs, ruta_archivo):
         if contador == 0:
             pass
         else:
-            eliminar_lineas(contador)
+            #eliminar_lineas(contador)
+            print("SALIO TODO BIEN")
         time.sleep(int(tiempo))  # Segundos
     
 
@@ -109,14 +176,19 @@ def cerrar_conexion():
 ### RECUPERAR ÚLTIMO REGISTRO BDD
 def ultimo_registro():
     cursor = cnn.cursor()
-    sql = "SELECT MAX(fechaRegistro) FROM controlPlc"
+    sql = "SELECT MAX(Fecha) FROM HornoMiagTTE"
     cursor.execute(sql)
 
     global registro_fecha
     registro_fecha = cursor.fetchone()
 
     cursor.close()
-    print(registro_fecha)
+    ultima_fecha = []
+    for i in registro_fecha:
+        ultima_fecha.append(i)
+    return ultima_fecha
+    
+    
 
 
 

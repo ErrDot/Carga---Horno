@@ -4,7 +4,7 @@ from datetime import datetime
 from Funciones.secundarias import fecha_actual, configuracion
 import time
 from tkinter import messagebox
-import math
+
 
 
 
@@ -117,6 +117,8 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
         # Contador de registros ingresados
         contador = 0
+
+        # CURSOR PARA INGRESAR DATOS
         cursor_insert = cnn.cursor()
         for i, row in df.iterrows():   
             # Formateo de fecha
@@ -146,7 +148,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
                 except Exception as ex:
                     print(ex)
                     print(f"Error en fila \n {i}: {row}")
-
+        # Confirmación del ingreso
         cnn.commit()
         cursor_insert.close()
 
@@ -154,7 +156,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
         if contador == 0:
             pass
-        else:
+        #else:
             #eliminar_lineas(contador)
             print("SALIO TODO BIEN")
         time.sleep(int(tiempo))  # Segundos

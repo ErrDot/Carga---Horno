@@ -117,15 +117,17 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
         # Contador de registros ingresados
         contador = 0
-
+        ultimoRegistro = ultimo[0]
+        if ultimoRegistro == None:
+                ultimoRegistro = "17/01/2018 10:05:00"
+        
         # CURSOR PARA INGRESAR DATOS
         cursor_insert = cnn.cursor()
         for i, row in df.iterrows():   
             # Formateo de fecha
             fecha = row['dd-MM-yyyy H:mm:ss']
             fecha = datetime.strftime(fecha, '%d/%m/%Y %H:%M:%S')
-            ultimoRegistro = ultimo[0]
-            ultimoRegistro = datetime.strftime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
+            ultimoRegistro = datetime.strptime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
             if fecha != ultimoRegistro and fecha > ultimoRegistro:
                 try:
                     # SENTENCIA SQL

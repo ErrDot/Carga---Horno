@@ -120,16 +120,17 @@ def ingresar_datos(timer_runs, ruta_archivo):
         ultimoRegistro = ultimo[0]
         if ultimoRegistro == None:
             ultimoRegistro = datetime.strptime("17/01/2018 10:05:00", '%d/%m/%Y %H:%M:%S')
-        ultimoRegistro = datetime.strftime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
+        else:
+            ultimoRegistro = datetime.strftime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
+            ultimoRegistro = datetime.strptime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
+            
         # CURSOR PARA INGRESAR DATOS
         cursor_insert = cnn.cursor()
         for i, row in df.iterrows():   
             # Formateo de fecha
-            fecha = row['dd-MM-yyyy H:mm:ss']
-            fecha = datetime.strftime(fecha, '%d/%m/%Y %H:%M:%S')
-
-            print(fecha > ultimoRegistro)
-            
+            campo_fecha = row['dd-MM-yyyy H:mm:ss']
+            v_fecha = datetime.strftime(campo_fecha, '%d/%m/%Y %H:%M:%S')
+            fecha = datetime.strptime(v_fecha, '%d/%m/%Y %H:%M:%S')
             if fecha != ultimoRegistro and fecha > ultimoRegistro:
                 try:
                     # SENTENCIA SQL
@@ -138,7 +139,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
                                 GasEtapa2, GasEtapa3, GasEtapa4, GasEtapa5, GasEtapa6, TiempoTotal, TiempoBarraE1,
                                 TiempoBarraE2, TiempoBarraE3, TiempoBarraE4, TiempoBarraE5, TiempoBarraE6, SPTemp1,
                                 SPTemp2, SPTemp3, SPTemp4, SPTemp5, SPTemp6, BotonStart)
-                                VALUES ('{fecha}', '{row['Numero de Batch']}', '{row['Variedad']}', '{row['T° Sobre Tela 1']}', 
+                                VALUES ('{v_fecha}', '{row['Numero de Batch']}', '{row['Variedad']}', '{row['T° Sobre Tela 1']}', 
                                     '{row['T° Sobre Tela 2']}','{row['T° Bajo Tela 2']}', '{row['T° AMBIENTE']}', '{row['%HR Sobre tela']}', 
                                     '{row['Porcentaje de apertura de DAMPER']}', '{row['Presion diferencial']}', '{row['GAS TOTAL']}', 
                                     '{row['GAS ETAPA 1']}', '{row['GAS ETAPA 2']}','{row['GAS ETAPA 3']}','{row['GAS ETAPA 4']}', 

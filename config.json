@@ -3,6 +3,6 @@
     "bdd": "ReportePLC",
     "user": "sa",
     "password": "malterias",
-    "path": "C:\\REPORTES\\HornoMIAG_PRUEBA.dat",
-    "tiempo": "30"
+    "path": "C:\\REPORTES\\HornoMIAG.dat",
+    "tiempo": "3600"
 }

@@ -67,8 +67,8 @@ def ingresar_datos(timer_runs, ruta_archivo):
             return
 
         # VALORES DECIMALES
-        df['T° Sobre Tela 1'] = df['T° Sobre Tela 1'].str.replace(',', '.').astype(float)
-        df['T° Sobre Tela 2'] = df['T° Sobre Tela 2'].str.replace(',', '.').astype(float)
+        df['T° Sobre Grano'] = df['T° Sobre Grano'].str.replace(',', '.').astype(float)
+        df['T° Sobre Tela'] = df['T° Sobre Tela'].str.replace(',', '.').astype(float)
         df['T° Bajo Tela 2'] = df['T° Bajo Tela 2'].str.replace(',', '.').astype(float)
         df['T° AMBIENTE'] = df['T° AMBIENTE'].str.replace(',', '.').astype(float)
         df['%HR Sobre tela'] = df['GAS ETAPA 4'].str.replace(',', '.').astype(float)

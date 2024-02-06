@@ -131,6 +131,8 @@ def ingresar_datos(timer_runs, ruta_archivo):
             campo_fecha = row['dd-MM-yyyy H:mm:ss']
             v_fecha = datetime.strftime(campo_fecha, '%d/%m/%Y %H:%M:%S')
             fecha = datetime.strptime(v_fecha, '%d/%m/%Y %H:%M:%S')
+            
+            
             if fecha != ultimoRegistro and fecha > ultimoRegistro:
                 try:
                     # SENTENCIA SQL

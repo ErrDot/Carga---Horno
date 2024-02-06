@@ -136,13 +136,13 @@ def ingresar_datos(timer_runs, ruta_archivo):
             if fecha != ultimoRegistro and fecha > ultimoRegistro:
                 try:
                     # SENTENCIA SQL
-                    sql = f'''INSERT INTO HornoMiagTTE (Fecha, Batch, Variedad, TSobreTela1, TSobreTela2,TBajoTela2,
+                    sql = f'''INSERT INTO HornoMiagTTE (Fecha, Batch, Variedad, TSobreGrano, TSobreTela,TBajoTela2,
                                 TAmbiente, HRSobreTela, PAperturaDamper, PresionDiferencial, GasTotal, GasEtapa1,
                                 GasEtapa2, GasEtapa3, GasEtapa4, GasEtapa5, GasEtapa6, TiempoTotal, TiempoBarraE1,
                                 TiempoBarraE2, TiempoBarraE3, TiempoBarraE4, TiempoBarraE5, TiempoBarraE6, SPTemp1,
                                 SPTemp2, SPTemp3, SPTemp4, SPTemp5, SPTemp6, BotonStart)
-                                VALUES ('{v_fecha}', '{row['Numero de Batch']}', '{row['Variedad']}', '{row['T° Sobre Tela 1']}', 
-                                    '{row['T° Sobre Tela 2']}','{row['T° Bajo Tela 2']}', '{row['T° AMBIENTE']}', '{row['%HR Sobre tela']}', 
+                                VALUES ('{v_fecha}', '{row['Numero de Batch']}', '{row['Variedad']}', '{row['T° Sobre Grano']}', 
+                                    '{row['T° Sobre Tela']}','{row['T° Bajo Tela 2']}', '{row['T° AMBIENTE']}', '{row['%HR Sobre tela']}', 
                                     '{row['Porcentaje de apertura de DAMPER']}', '{row['Presion diferencial']}', '{row['GAS TOTAL']}', 
                                     '{row['GAS ETAPA 1']}', '{row['GAS ETAPA 2']}','{row['GAS ETAPA 3']}','{row['GAS ETAPA 4']}', 
                                     '{row['GAS ETAPA 5']}', '{row['GAS ETAPA 6']}', '{row['TIEMPO TOTAL']}', '{row['TIEMPO BARRA ETAPA 1']}',

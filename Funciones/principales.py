@@ -196,7 +196,7 @@ def cerrar_conexion():
         print(f"{fecha_hora}: La conexión se ha cerrado")
     except:
         print(f"{fecha_hora}: La conexión ya estaba cerrada o no estaba establecida")
-        return
+        
         
 
 

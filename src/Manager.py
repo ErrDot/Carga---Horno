@@ -27,7 +27,7 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.configure(background=style.BACKGROUND)
         self.init_widgets() 
-
+        self.iniciar()
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         
 

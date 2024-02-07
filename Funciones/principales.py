@@ -56,6 +56,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
     print(f"{fecha_hora}: Ingresando datos..." )
     while timer_runs.is_set() and check == True:
         ultimo = ultimo_registro()
+        ## Aqui debe ir la conexión a la base de datos
         tiempo = parametros["tiempo"]
         fecha_hora = fecha_actual()
         try: 
@@ -158,6 +159,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
         # Confirmación del ingreso
         cnn.commit()
         cursor_insert.close()
+        ## SE TIENE QUE CERRAR LA CONEXIÓN cnn.close()
 
         print(f"{fecha_hora}: Se han ingresado: {contador} registros")
 

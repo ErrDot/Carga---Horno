@@ -27,7 +27,7 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.configure(background=style.BACKGROUND)
         self.init_widgets() 
-        self.iniciar()
+        #self.iniciar()
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         
 
@@ -93,16 +93,7 @@ class App(tk.Tk):
             pady=5)
         sys.stdout = ConsoleRedirector(self.console_output)
 
-        ### FRAME FOOTER
-        Frame_footer = tk.Frame(self)
-        Frame_footer.configure(background=style.COMPONENT)
-        Frame_footer.pack(
-            side=tk.BOTTOM,
-            fill=tk.X,
-            expand=False,
-            padx=5,
-            pady=5
-        )
+        
 
         ### BTN PARA INICIAR EL PROCECESO
         self.btn_iniciar = tk.Button(Frame1)
@@ -141,6 +132,17 @@ class App(tk.Tk):
             fill=tk.X,
             padx=50,
             pady=11
+        )
+
+        ### FRAME FOOTER
+        Frame_footer = tk.Frame(self)
+        Frame_footer.configure(background=style.COMPONENT)
+        Frame_footer.pack(
+            side=tk.BOTTOM,
+            fill=tk.X,
+            expand=False,
+            padx=5,
+            pady=5
         )
 
 

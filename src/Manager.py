@@ -8,7 +8,7 @@ from constantes import style
 from tkinter import messagebox
 import threading
 from src.Vparametros import VentanaSecundaria
-
+from PIL import ImageTk, Image
 
 
 
@@ -23,6 +23,10 @@ class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("Carga de datos - Horno")
+        self.img = Image.open("assets/icono.ico")
+        self.img = self.img.resize((32, 32))
+        self.img = ImageTk.PhotoImage(self.img)
+        self.iconphoto(True, self.img)
         self.geometry("854x480")
         self.resizable(False, False)
         self.configure(background=style.BACKGROUND)
@@ -48,7 +52,7 @@ class App(tk.Tk):
         # BTN PARA INGRESAR PARAMETROS
         self.btn_parametros = tk.Button(Frame1)
         self.btn_parametros.config(
-            text="Parametros",
+            text="PARAMETROS",
             state=tk.NORMAL,
             width=9,
             height=2,

@@ -16,6 +16,8 @@ class VentanaSecundaria(tk.Toplevel):
         super().__init__(*args, **kwargs)
         self.title("Parametros")
         self.geometry("235x300")
+        self.icono = tk.PhotoImage(file="assets/icono2.gif")
+        self.iconphoto(True, self.icono)
         self.configure(background=style.BACKGROUND)
         self.resizable(False, False)
         self.sec_widgets()

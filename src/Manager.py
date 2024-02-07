@@ -52,7 +52,7 @@ class App(tk.Tk):
         # BTN PARA INGRESAR PARAMETROS
         self.btn_parametros = tk.Button(Frame1)
         self.btn_parametros.config(
-            text="PARAMETROS",
+            text="Parametros",
             state=tk.NORMAL,
             width=9,
             height=2,

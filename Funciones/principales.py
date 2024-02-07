@@ -174,7 +174,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
             cursor_insert.close()
             cnn.close()
         except Exception as ex:
-            print("Error al intentar ingresar datos...")
+            print(f"Error al intentar ingresar datos: {ex}")
             check = False
             return
 

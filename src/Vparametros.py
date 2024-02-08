@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-from Funciones.secundarias import fecha_actual, configuracion, guardar_data
+from Funciones.secundarias import fecha_actual, configuracion, guardar_data, resourcePath
 from constantes import style
 from tkinter import messagebox
 
@@ -16,7 +16,7 @@ class VentanaSecundaria(tk.Toplevel):
         super().__init__(*args, **kwargs)
         self.title("Parametros")
         self.geometry("235x300")
-        self.icono = tk.PhotoImage(file="assets/4k.gif")
+        self.icono = tk.PhotoImage(file=resourcePath("assets/4k.gif"))
         self.iconphoto(True, self.icono)
         self.configure(background=style.BACKGROUND)
         self.resizable(False, False)

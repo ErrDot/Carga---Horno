@@ -125,9 +125,13 @@ def ingresar_datos(timer_runs, ruta_archivo):
             cursor_insert = cnn.cursor()
             ultimo = ultimo_registro()
         except:
-            conectar_bdd()
-            cursor_insert = cnn.cursor()
-            ultimo = ultimo_registro()
+            try:
+                conectar_bdd()
+                cursor_insert = cnn.cursor()
+                ultimo = ultimo_registro()
+            except:
+                print("No se ha podido establecer la conexión")
+                return
 
 
         # Contador de registros ingresados

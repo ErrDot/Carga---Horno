@@ -57,7 +57,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
         fecha_hora = fecha_actual()
         print(f"{fecha_hora}: Ingresando datos..." )
-        ultimo = ultimo_registro()
+        #ultimo = ultimo_registro()
         tiempo = parametros["tiempo"]
         fecha_hora = fecha_actual()
 
@@ -121,6 +121,18 @@ def ingresar_datos(timer_runs, ruta_archivo):
             check = False
             return 
         
+
+        ## EXCEPTION POR SI LA CONEXION ESTÁ CERRADA
+        try:    
+            # CURSOR PARA INGRESAR DATOS
+            cursor_insert = cnn.cursor()
+            ultimo = ultimo_registro()
+        except:
+            conectar_bdd()
+            cursor_insert = cnn.cursor()
+            ultimo = ultimo_registro()
+
+
         # Contador de registros ingresados
         contador = 0
         ultimoRegistro = ultimo[0]
@@ -128,15 +140,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
             ultimoRegistro = datetime.strptime("17/01/2018 10:05:00", '%d/%m/%Y %H:%M:%S')
         else:
             ultimoRegistro = datetime.strftime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
-            ultimoRegistro = datetime.strptime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
-
-        ## EXCEPTION POR SI LA CONEXION ESTÁ CERRADA
-        try:    
-            # CURSOR PARA INGRESAR DATOS
-            cursor_insert = cnn.cursor()
-        except:
-            conectar_bdd()
-            cursor_insert = cnn.cursor()
+            ultimoRegistro = datetime.strptime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')    
 
         try:
             # For PARA INTERAR .DAT

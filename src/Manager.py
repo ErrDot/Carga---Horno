@@ -23,10 +23,8 @@ class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("Carga de datos - Horno")
-        self.img = Image.open("assets/icono.ico")
-        self.img = self.img.resize((32, 32))
-        self.img = ImageTk.PhotoImage(self.img)
-        self.iconphoto(True, self.img)
+        self.icono = tk.PhotoImage(file="assets/4k.gif")
+        self.iconphoto(True, self.icono)
         self.geometry("854x480")
         self.resizable(False, False)
         self.configure(background=style.BACKGROUND)

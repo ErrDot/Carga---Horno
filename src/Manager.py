@@ -3,7 +3,7 @@ import sys
 from tkinter import *
 from tkinter import scrolledtext
 from Funciones.principales import conectar_bdd, ingresar_datos, fecha_actual, cerrar_conexion
-from Funciones.secundarias import fecha_actual, configuracion, guardar_data
+from Funciones.secundarias import fecha_actual, configuracion
 from constantes import style
 from tkinter import messagebox
 import threading

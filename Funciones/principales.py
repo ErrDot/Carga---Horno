@@ -72,7 +72,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
             df['T° Sobre Tela'] = df['T° Sobre Tela'].str.replace(',', '.').astype(float)
             df['T° Bajo Tela 2'] = df['T° Bajo Tela 2'].str.replace(',', '.').astype(float)
             df['T° AMBIENTE'] = df['T° AMBIENTE'].str.replace(',', '.').astype(float)
-            df['%HR Sobre tela'] = df['GAS ETAPA 4'].str.replace(',', '.').astype(float)
+            df['%HR Sobre tela'] = df['%HR Sobre tela'].str.replace(',', '.').astype(float)
             # VALORES INT
             df['Presion diferencial'] = df['Presion diferencial'].str.replace(',', '.').astype(float) / 1
             df['GAS ETAPA 1'] = df['GAS ETAPA 1'].str.replace(',', '.').astype(float) / 1
@@ -180,7 +180,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
             cursor_insert.close()
             cnn.close()
         except Exception as ex:
-            print(f"{fecha_hora}: Error al intentar ingresar datos: {ex}")
+            print(f"{fecha_hora}: Error en archivo, Favor informar a Depto. TI")
             check = False
             return
 

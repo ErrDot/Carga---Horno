@@ -171,9 +171,8 @@ class App(tk.Tk):
                 self.btn_iniciar.config(state=tk.DISABLED)
                 self.btn_cerrar.config(state=tk.DISABLED)
                 print(f"{fecha_hora}: Conexión exitosa")
-            except Exception as ex:
-                print(f"{fecha_hora}: Ha producido el siguiente error: {ex}")
-                messagebox.showerror(message="No se ha podido establecer conexión con el servidor", title='ERROR')
+            except:
+                print(f"{fecha_hora}: No se logró establecer la conexión")
                 return
             
             try:    

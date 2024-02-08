@@ -8,7 +8,7 @@ from constantes import style
 from tkinter import messagebox
 import threading
 from src.Vparametros import VentanaSecundaria
-from PIL import ImageTk, Image
+
 
 
 

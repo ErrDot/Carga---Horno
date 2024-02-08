@@ -1,4 +1,4 @@
-import pyodbc # CONECTOR PARA Sql Servers
+import pyodbc # CONECTOR PARA Sql Server
 import pandas as pd
 from datetime import datetime 
 from Funciones.secundarias import fecha_actual, configuracion
@@ -48,8 +48,6 @@ def conectar_bdd():
 # FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
 def ingresar_datos(timer_runs, ruta_archivo):
     parametros = configuracion()
-    
-
     # INGRESAR DATOS 
     check = True
     
@@ -57,7 +55,6 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
         fecha_hora = fecha_actual()
         print(f"{fecha_hora}: Ingresando datos..." )
-        #ultimo = ultimo_registro()
         tiempo = parametros["tiempo"]
         fecha_hora = fecha_actual()
 
@@ -117,7 +114,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
             df['SET POINT DE TEMPERATURA ETAPA 5'] = df['SET POINT DE TEMPERATURA ETAPA 5'].astype(int)
             df['SET POINT DE TEMPERATURA ETAPA 6'] = df['SET POINT DE TEMPERATURA ETAPA 6'].astype(int)
         except Exception as ex:
-            print(f"Ha ocurrido el siguiente error: {ex}")
+            print(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
             check = False
             return 
         
@@ -135,12 +132,17 @@ def ingresar_datos(timer_runs, ruta_archivo):
 
         # Contador de registros ingresados
         contador = 0
-        ultimoRegistro = ultimo[0]
-        if ultimoRegistro == None:
-            ultimoRegistro = datetime.strptime("17/01/2018 10:05:00", '%d/%m/%Y %H:%M:%S')
-        else:
-            ultimoRegistro = datetime.strftime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
-            ultimoRegistro = datetime.strptime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')    
+        try:
+            ultimoRegistro = ultimo[0]
+            if ultimoRegistro == None:
+                ultimoRegistro = datetime.strptime("17/01/2018 10:05:00", '%d/%m/%Y %H:%M:%S')
+            else:
+                ultimoRegistro = datetime.strftime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
+                ultimoRegistro = datetime.strptime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
+        except Exception as ex:
+            print(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
+            check = False
+            return     
 
         try:
             # For PARA INTERAR .DAT
@@ -172,13 +174,13 @@ def ingresar_datos(timer_runs, ruta_archivo):
                         contador += 1
                     except Exception as ex:
                         print(ex)
-                        print(f"Error en fila \n {i}: {row}")
+                        print(f"{fecha_hora}: Error en fila \n {v_fecha} - {row['Numero de Batch']}")
             # Confirmación del ingreso
             cnn.commit()
             cursor_insert.close()
             cnn.close()
         except Exception as ex:
-            print(f"Error al intentar ingresar datos: {ex}")
+            print(f"{fecha_hora}: Error al intentar ingresar datos: {ex}")
             check = False
             return
 
@@ -187,7 +189,7 @@ def ingresar_datos(timer_runs, ruta_archivo):
         ##if contador == 0:
             #pass
         #else:
-            #eliminar_lineas(contador)
+            # funcion para eliminar registros de archivo
         time.sleep(int(tiempo))  # Segundos
     
 
@@ -199,7 +201,7 @@ def cerrar_conexion():
         cnn.close()
         print(f"{fecha_hora}: La conexión se ha cerrado")
     except:
-        print(f"{fecha_hora}: La conexión ya estaba cerrada o no estaba establecida")
+        print(f"{fecha_hora}: Conexión cerrada...")
         
         
 
@@ -219,9 +221,4 @@ def ultimo_registro():
         ultima_fecha.append(i)
     return ultima_fecha
     
-    
 
-
-
-
- 

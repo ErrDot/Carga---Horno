@@ -29,7 +29,7 @@ class App(tk.Tk):
         self.resizable(False, False)
         self.configure(background=style.BACKGROUND)
         self.init_widgets() 
-        #self.iniciar()
+        self.iniciar()
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         
 
@@ -95,8 +95,6 @@ class App(tk.Tk):
             pady=5)
         sys.stdout = ConsoleRedirector(self.console_output)
 
-        
-
         ### BTN PARA INICIAR EL PROCECESO
         self.btn_iniciar = tk.Button(Frame1)
         self.btn_iniciar.config(
@@ -106,7 +104,6 @@ class App(tk.Tk):
             height=2,
             command=self.iniciar,
             **style.BTN_STYLE,
-            #relief=tk.FLAT,
             activebackground="white",
             activeforeground=style.TEXT
             )
@@ -172,6 +169,7 @@ class App(tk.Tk):
             try:
                 conectar_bdd()
                 self.btn_iniciar.config(state=tk.DISABLED)
+                self.btn_cerrar.config(state=tk.DISABLED)
                 print(f"{fecha_hora}: Conexión exitosa")
             except Exception as ex:
                 print(f"{fecha_hora}: Ha producido el siguiente error: {ex}")
@@ -202,6 +200,7 @@ class App(tk.Tk):
             timer_runs.clear()
             cerrar_conexion()
             self.btn_iniciar.config(state=tk.NORMAL)
+            self.btn_cerrar.config(state=tk.NORMAL)
         except Exception as ex:
             print(f"{fecha_hora}: El proceso aun no ha sido ejecutado...")
             return
@@ -231,39 +230,3 @@ class ConsoleRedirector:
     def flush(self):
         pass
 
-
-
-##### EL PATIO DE LOS CALLADOS
-    ### FUNCION PARA SUBIR ARCHIVO - RIP
-    '''def subirArchivo(self):
-        archivo = filedialog.askopenfilename(
-            title="Subir archivo",
-            filetypes=(
-                ("Ficheros de datos", "*.dat"),
-                ("Archivos de texto", "*.txt"),
-                ("Todos los archivos", "*.*")
-            )
-        )
-        if archivo:
-            self.ruta_archivo = archivo
-            self.title_label.config(text=f"Ruta del archivo: {self.ruta_archivo}")
-            print(f"Path actualizado: {archivo}")'''       
-
-
-
-
-        # btn RIP.
-    '''tk.Button(
-            optionsFrame,
-            text="Subir Archivo",
-            command= ...,
-            **style.BTN_STYLE,
-            relief=tk.FLAT,
-            activebackground=style.BACKGROUND,
-            activeforeground=style.TEXT
-        ).pack(
-            side=tk.LEFT,
-            fill=tk.X,
-            padx=12,
-            pady=12
-        )'''

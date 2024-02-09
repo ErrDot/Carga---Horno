@@ -58,7 +58,7 @@ def conectar_bdd():
 
 
 
-# FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
+# FUNCIÓN PRINCIPAL
 def main(timer_runs, ruta_archivo):
     parametros = configuracion()
     fecha_hora = fecha_actual()
@@ -73,7 +73,7 @@ def main(timer_runs, ruta_archivo):
         time.sleep(int(tiempo))  # Segundos
 
 
-
+#FUNCIÓN PARA INGRESAR DATOS
 def ingresar_datos(ruta_archivo):
     fecha_hora = fecha_actual()
 

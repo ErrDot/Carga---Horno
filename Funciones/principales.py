@@ -139,7 +139,7 @@ def ingresar_datos(ruta_archivo):
         print(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
         return 
     
-    
+
     try:    
         # CURSOR PARA INGRESAR DATOS
         cursor_insert = cnn.cursor()
@@ -162,6 +162,7 @@ def ingresar_datos(ruta_archivo):
     except Exception as ex:
         print(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
         return     
+
 
     try:
         # For PARA INTERAR .DAT

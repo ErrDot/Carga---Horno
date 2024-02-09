@@ -2,7 +2,7 @@ import tkinter as tk
 import sys
 from tkinter import *
 from tkinter import scrolledtext
-from Funciones.principales import conectar_bdd, ingresar_datos, fecha_actual, cerrar_conexion
+from Funciones.principales import conectar_bdd, main, fecha_actual, cerrar_conexion
 from Funciones.secundarias import fecha_actual, configuracion, resourcePath
 from constantes import style
 from tkinter import messagebox
@@ -166,20 +166,14 @@ class App(tk.Tk):
         self.ruta_archivo = param["path"]
         fecha_hora = fecha_actual()
         if self.ruta_archivo != "":
-            try:
-                conectar_bdd()
-                self.btn_iniciar.config(state=tk.DISABLED)
-                self.btn_cerrar.config(state=tk.DISABLED)
-                print(f"{fecha_hora}: Conexión exitosa")
-            except:
-                print(f"{fecha_hora}: No se logró establecer la conexión")
-                return
             
-            try:    
+            try:
+                self.btn_iniciar.config(state=tk.DISABLED)
+                self.btn_cerrar.config(state=tk.DISABLED)    
                 global timer_runs        
                 timer_runs = threading.Event()
                 timer_runs.set()
-                t = threading.Thread(target=ingresar_datos, args=(timer_runs, self.ruta_archivo,))
+                t = threading.Thread(target=main, args=(timer_runs, self.ruta_archivo,))
                 t.start()
             except Exception as ex:
                 messagebox.showerror(message="Error al ingresar datos.", title='ERROR')

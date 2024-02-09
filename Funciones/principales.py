@@ -61,7 +61,8 @@ def conectar_bdd():
 # FUNCIÓN PARA INGRESAR DATOS - FUNCION PRINCIPAL
 def main(timer_runs, ruta_archivo):
     parametros = configuracion()
-    
+    fecha_hora = fecha_actual()
+    print(f"{fecha_hora}: Ingresando datos..." )
     # INGRESAR DATOS
     while timer_runs.is_set():
         tiempo = parametros["tiempo"]
@@ -75,7 +76,6 @@ def main(timer_runs, ruta_archivo):
 
 def ingresar_datos(ruta_archivo):
     fecha_hora = fecha_actual()
-    print(f"{fecha_hora}: Ingresando datos..." )
 
     try: 
         df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True, encoding='unicode_escape').fillna('0')

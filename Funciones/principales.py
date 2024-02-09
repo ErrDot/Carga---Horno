@@ -79,7 +79,7 @@ def ingresar_datos(ruta_archivo):
 
     try: 
         df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True, encoding='unicode_escape').fillna('0')
-    except:
+    except Exception as ex:
         messagebox.showerror(message="Archivo erroneo o no vinculado, intente otra vez", title='ERROR')
         return
     
@@ -155,7 +155,7 @@ def ingresar_datos(ruta_archivo):
             ultimoRegistro = datetime.strftime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
             ultimoRegistro = datetime.strptime(ultimoRegistro, '%d/%m/%Y %H:%M:%S')
     except Exception as ex:
-        print(f"{fecha_hora}: Ha ocurrido el siguiente error: {ex}")
+        print(f"{fecha_hora}: Ups, algo salió mal...")
         return     
 
 
@@ -187,16 +187,17 @@ def ingresar_datos(ruta_archivo):
                                     '{row['SET POINT DE TEMPERATURA ETAPA 5']}', '{row['SET POINT DE TEMPERATURA ETAPA 6']}', '{row['Boton Start']}')'''
                     cursor_insert.execute(sql)
                     contador += 1
-                except Exception as ex:
-                    print(ex)
+                except:
                     print(f"{fecha_hora}: Error en fila \n {v_fecha} - {row['Numero de Batch']}")
         # Confirmación del ingreso
         cnn.commit()
         cursor_insert.close()
         cnn.close()
-    except Exception as ex:
-        #print(f"{fecha_hora}: Error en archivo, Favor informar a Depto. TI")
+    except TypeError:
         messagebox.showerror(message="Error en archivo, Favor informar a Depto. TI", title='ERROR')
+        return
+    except Exception as ex1:
+        print(ex1)
         return
 
     print(f"{fecha_hora}: Se han ingresado: {contador} registros")

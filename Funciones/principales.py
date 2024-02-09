@@ -48,7 +48,6 @@ def conectar_bdd():
             )
             vi_contador = 10
             v_conectado = "s"
-            print("Conexión exitosa")
         except:
             vi_contador += 1
             v_conectado = "n"
@@ -69,9 +68,6 @@ def main(timer_runs, ruta_archivo):
         v_conectado = conectar_bdd()
         if v_conectado == "s":
             ingresar_datos(ruta_archivo)
-        else:
-            fecha_net = fecha_actual()
-            print(f"{fecha_net}: No se pudo establecer la conexión")
 
         time.sleep(int(tiempo))  # Segundos
 
@@ -83,8 +79,7 @@ def ingresar_datos(ruta_archivo):
 
     try: 
         df = pd.read_csv(ruta_archivo, sep=";", parse_dates=["dd-MM-yyyy H:mm:ss"], dayfirst=True, encoding='unicode_escape').fillna('0')
-    except Exception as ex:
-        print(ex)
+    except:
         messagebox.showerror(message="Archivo erroneo o no vinculado, intente otra vez", title='ERROR')
         return
     
@@ -146,7 +141,7 @@ def ingresar_datos(ruta_archivo):
         ultimo = ultimo_registro()
     except:
         fecha_act = fecha_actual()
-        print(f"{fecha_act}: Algo ha salido mal")
+        print(f"{fecha_act}: Ups, algo salió mal")
         return
 
 
@@ -200,7 +195,8 @@ def ingresar_datos(ruta_archivo):
         cursor_insert.close()
         cnn.close()
     except Exception as ex:
-        print(f"{fecha_hora}: Error en archivo, Favor informar a Depto. TI")
+        #print(f"{fecha_hora}: Error en archivo, Favor informar a Depto. TI")
+        messagebox.showerror(message="Error en archivo, Favor informar a Depto. TI", title='ERROR')
         return
 
     print(f"{fecha_hora}: Se han ingresado: {contador} registros")

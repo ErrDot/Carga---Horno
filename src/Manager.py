@@ -181,7 +181,6 @@ class App(tk.Tk):
                 return         
             
         else:
-            print(f"{fecha_hora}:La ruta del archivo no es correcta o no existe")
             messagebox.showwarning(message="No hay ningun archivo vinculado", title='WARNING')
     
 

@@ -196,8 +196,7 @@ def ingresar_datos(ruta_archivo):
     except TypeError:
         messagebox.showerror(message="Error en archivo, Favor informar a Depto. TI", title='ERROR')
         return
-    except Exception as ex1:
-        print(ex1)
+    except:
         return
 
     print(f"{fecha_hora}: Se han ingresado: {contador} registros")
